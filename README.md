@@ -12,7 +12,7 @@ pip install -r requirements.txt
 
 cp config.example.yml config.yml
 
-python main.py gen-from-db --single-export
+python main.py gen-from-db
 
-python main.py gen-from-csv --single-export
+python main.py gen-from-csv
 ```

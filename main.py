@@ -37,22 +37,17 @@ with open("config.yml", 'r') as f:
 
 
 @click.group()
-@click.option('--single-export', is_flag=True, help='Is exported to single file?')
-@click.pass_context
-def cli(ctx, single_export):
-    ctx.ensure_object(dict)
-    ctx.obj['SINGLE_EXPORT'] = single_export
-    click.echo('Export to single file is %s.' %
-               ('on' if single_export else 'off'))
+def cli():
+    pass
 
 
 @cli.command()
-@click.pass_context
-def gen_from_db(ctx):
+def gen_from_db():
     from_db = config.get('from_db', {})
     db_config = from_db.get('db', {})
-    single_export_file_name = from_db.get(
-        'single_export_file_name', 'tp_from_db')
+    export_single_file = from_db.get('export_single_file', True)
+    export_single_file_name = from_db.get(
+        'export_single_file_name', 'tp_from_db')
 
     connection = pymysql.connect(
         host=db_config.get('host'),
@@ -85,13 +80,13 @@ def gen_from_db(ctx):
 
                 insert_sql = gen_insert_sql(name, columns, rows)
 
-                if ctx.obj['SINGLE_EXPORT']:
+                if export_single_file:
                     insert_sqls.append(insert_sql)
                 else:
                     write_sql(name, insert_sql)
 
-        if ctx.obj['SINGLE_EXPORT']:
-            write_sql(single_export_file_name, '\n\n'.join(insert_sqls))
+        if export_single_file:
+            write_sql(export_single_file_name, '\n\n'.join(insert_sqls))
 
     except Exception as e:
         print(e)
@@ -102,12 +97,12 @@ def gen_from_db(ctx):
 
 
 @cli.command()
-@click.pass_context
-def gen_from_csv(ctx):
+def gen_from_csv():
     from_csv = config.get('from_csv', {})
     tps = from_csv.get('tps', [])
-    single_export_file_name = from_csv.get(
-        'single_export_file_name', 'tp_from_csv')
+    export_single_file = from_csv.get('export_single_file', True)
+    export_single_file_name = from_csv.get(
+        'export_single_file_name', 'tp_from_csv')
     insert_sqls = []
 
     for tp in tps:
@@ -130,16 +125,16 @@ def gen_from_csv(ctx):
                 rows.append(row)
             insert_sql = gen_insert_sql(name, columns, rows)
 
-            if ctx.obj['SINGLE_EXPORT']:
+            if export_single_file:
                 insert_sqls.append(insert_sql)
             else:
                 write_sql(name, insert_sql)
 
-    if ctx.obj['SINGLE_EXPORT']:
-        write_sql(single_export_file_name, '\n\n'.join(insert_sqls))
+    if export_single_file:
+        write_sql(export_single_file_name, '\n\n'.join(insert_sqls))
 
     click.echo('Done.')
 
 
 if __name__ == '__main__':
-    cli(obj={})
+    cli()

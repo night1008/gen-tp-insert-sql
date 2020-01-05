@@ -12,7 +12,8 @@ from_db:
     - name: post
       sql: select id, title from post order by 1
       export_csv: false
-  export_sql_file_name: tp_from_db
+  export_single_file: true
+  export_single_file_name: tp_from_db
 
 from_csv:
   tps:
@@ -21,4 +22,5 @@ from_csv:
       columns:
         id: int
         name: str
-  export_sql_file_name: tp_from_csv
+  export_single_file: true
+  export_single_file_name: tp_from_csv
