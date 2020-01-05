@@ -43,6 +43,8 @@ def cli():
 
 @cli.command()
 def gen_from_db():
+    """generate insert sql from remote mysql database"""
+
     from_db = config.get('from_db', {})
     db_config = from_db.get('db', {})
     export_single_file = from_db.get('export_single_file', True)
@@ -98,6 +100,8 @@ def gen_from_db():
 
 @cli.command()
 def gen_from_csv():
+    """generate insert sql from csv file"""
+
     from_csv = config.get('from_csv', {})
     tps = from_csv.get('tps', [])
     export_single_file = from_csv.get('export_single_file', True)
