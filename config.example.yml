@@ -1,0 +1,24 @@
+from_db:
+  db:
+    host: localhost
+    user: root
+    password: password
+    database: db_name
+    charset: utf8mb4
+  tps:
+    - name: tp_user
+      sql: select id, name from user order by 1
+      export_csv: false
+    - name: post
+      sql: select id, title from post order by 1
+      export_csv: false
+  export_sql_file_name: tp_from_db
+
+from_csv:
+  tps:
+    - path: user.csv
+      name: tp_user
+      columns:
+        id: int
+        name: str
+  export_sql_file_name: tp_from_csv
