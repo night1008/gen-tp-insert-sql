@@ -53,6 +53,7 @@ def gen_from_db():
 
     connection = pymysql.connect(
         host=db_config.get('host'),
+        port=db_config.get('port'),
         user=db_config.get('user'),
         password=db_config.get('password'),
         database=db_config.get('database'),
