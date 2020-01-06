@@ -11,7 +11,7 @@ from_db:
       sql: >
         select id, name from user order by 1
       export_csv: false
-    - name: post
+    - name: tp_post
       sql: >
         select id, title from post order by 1
       export_csv: false

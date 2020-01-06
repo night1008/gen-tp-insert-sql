@@ -6,11 +6,7 @@
 ```
 python3 -m venv venv
 
-cd venv
-
-source bin/activite
-
-cd ..
+source venv/bin/activate
 
 pip install -r requirements.txt
 
